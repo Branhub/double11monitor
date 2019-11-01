@@ -20,13 +20,13 @@ import java.util.concurrent.TimeUnit;
 public class MainClass
 {
 
-    public static final String printCodeArg = "printCode";
-    public static final String alarmTypeArg = "alarmType";
-    public static final String sysNameArg = "sysName";
-    public static final String systemnameArg = "systemname";
-    public static final String errorTodayThresholdArg = "et";
-    public static final String stockMsgsThreshold = "st";
-    
+    public static final String printCodeArg = "--printCode";
+    public static final String alarmTypeArg = "--alarmType";
+    public static final String sysNameArg = "--sysName";
+    public static final String systemnameArg = "--systemname";
+    public static final String errorTodayThresholdArg = "--et";
+    public static final String stockMsgsThreshold = "--st";
+
     public static void main(String[] args)
     {
         System.out.println("Hello main");
