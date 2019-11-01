@@ -92,19 +92,19 @@ public class Innersys
             case all:
                 if (shouldAlarm(innersysListElement))
                 {
-                    System.out.println("警告！！！！！！！！！！！！！");
+                    System.out.println("Innersys警告！！！！！！！！！！！！！");
                 }
                 System.out.println(innersysListElement);
                 break;
             case onlyAlarm:
                 if (shouldAlarm(innersysListElement))
                 {
-                    System.out.println("警告！！！！！！！！！！！！！");
+                    System.out.println("Innersys警告！！！！！！！！！！！！！");
                     System.out.println(innersysListElement);
                 }
                 else
                 {
-                    System.out.println("正常");
+                    System.out.println("Innersys正常");
                 }
                 break;
         }

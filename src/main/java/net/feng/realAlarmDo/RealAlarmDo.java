@@ -67,13 +67,23 @@ public class RealAlarmDo
         ResponseCodeAndBody responseCodeAndBody = send(formData);
         RealAlarmDoResponse realAlarmDoResponse = processResponse(responseCodeAndBody);
         List<RealAlarmDoRowsElement> rows = realAlarmDoResponse.getRows();
+        StringBuilder alarmText = new StringBuilder();
         for (RealAlarmDoRowsElement currentElement: rows)
         {
             if (shouldAlarm(currentElement))
             {
-                System.out.println("警告！！！！！！！！！！");
-                System.out.println(currentElement);
+                alarmText.append(currentElement);
+                alarmText.append("\n");
             }
+        }
+        if (alarmText.length() == 0)
+        {
+            System.out.println("RealAlarmDo正常");
+        }
+        else
+        {
+            System.out.println("RealAlarmDo警告！！！！！！！！！");
+            System.out.println(alarmText.toString());
         }
 
     }
