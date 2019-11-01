@@ -19,13 +19,23 @@ import java.util.concurrent.TimeUnit;
 
 public class MainClass
 {
+
+    public static final String printCodeArg = "printCode";
+    public static final String alarmTypeArg = "alarmType";
+    public static final String sysNameArg = "sysName";
+    public static final String systemnameArg = "systemname";
+    public static final String errorTodayThresholdArg = "et";
+    public static final String stockMsgsThreshold = "st";
+    
     public static void main(String[] args)
     {
         System.out.println("Hello main");
         HttpClient httpClient = HttpClients.createDefault();
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        final Innersys innersys = new Innersys(httpClient,responseHandler,null,null);
-        final RealAlarmDo realAlarmDo = new RealAlarmDo(httpClient,responseHandler,null,null,null);
+
+        Map<String,String> argsMap = argsToMap(args);
+        final Innersys innersys = getInnersysFromArgsMap(argsMap,httpClient,responseHandler);
+        final RealAlarmDo realAlarmDo = getRealAlarmDoFromArgsMap(argsMap,httpClient,responseHandler);
 
 //        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 //        scheduler.start();
@@ -59,15 +69,63 @@ public class MainClass
                 }
             }
         },milliSecondToNextHour,milliSecondPerHour, TimeUnit.MILLISECONDS);
+    }
 
-//        try
-//        {
-//            innersys.alarm();
-//        }
-//        catch (Exception e)
-//        {
-//            System.out.println(e);
-//        }
+    private static Map<String,String> argsToMap(String[] args)
+    {
+        Map<String,String> result = new HashMap<>();
+        for (int i = 0;i < args.length;i = i + 2)
+        {
+            result.put(args[i],args[i+1]);
+        }
+        return result;
+    }
 
+    private static Innersys getInnersysFromArgsMap(
+            Map<String,String> argsMap,
+            HttpClient httpClient,
+            ResponseHandler<String> responseHandler)
+    {
+        String printCode = argsMap.get(printCodeArg);
+        String alarmType = argsMap.get(alarmTypeArg);
+
+        return new Innersys(httpClient,responseHandler,printCode,alarmType);
+    }
+
+    private static RealAlarmDo getRealAlarmDoFromArgsMap(
+            Map<String,String> argsMap,
+            HttpClient httpClient,
+            ResponseHandler<String> responseHandler)
+    {
+        String sysName = argsMap.get(sysNameArg);
+        String systemname = argsMap.get(systemnameArg);
+        Map<String,String> formData = null;
+        if
+        (
+                (sysName != null && !sysName.equals(""))
+                && (systemname != null && !systemname.equals(""))
+        )
+        {
+            formData = new HashMap<>();
+            formData.put("sysName", sysName);
+            formData.put("systemname", systemname);
+        }
+
+
+
+        String errorTodayThresholdString = argsMap.get(errorTodayThresholdArg);
+        String stockMsgsThresholdString = argsMap.get(stockMsgsThreshold);
+        Integer errorTodayThreshold = null;
+        Integer stockMsgsThreshold = null;
+        try
+        {
+            errorTodayThreshold = Integer.valueOf(errorTodayThresholdString);
+            stockMsgsThreshold = Integer.valueOf(stockMsgsThresholdString);
+        }
+        catch (Exception e)
+        {
+        }
+
+        return new RealAlarmDo(httpClient,responseHandler,formData,errorTodayThreshold,stockMsgsThreshold);
     }
 }
