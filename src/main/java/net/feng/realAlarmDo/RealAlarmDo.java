@@ -65,8 +65,6 @@ public class RealAlarmDo
     public void alarm() throws IOException
     {
         ResponseCodeAndBody responseCodeAndBody = send(formData);
-        //调试，打印出返回的数据
-        System.out.println(responseCodeAndBody.getBody());
         RealAlarmDoResponse realAlarmDoResponse = processResponse(responseCodeAndBody);
         List<RealAlarmDoRowsElement> rows = realAlarmDoResponse.getRows();
         StringBuilder alarmText = new StringBuilder();
