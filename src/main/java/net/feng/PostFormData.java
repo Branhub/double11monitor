@@ -1,5 +1,6 @@
 package net.feng;
 
+import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -31,7 +32,7 @@ public class PostFormData
     {
 
         List<NameValuePair> formData = mapToNameValuePairList(formDataMap);
-        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formData);
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formData, Charsets.UTF_8);
 
         HttpPost post = new HttpPost(url);
         post.setEntity(formEntity);
